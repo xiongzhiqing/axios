@@ -2,7 +2,7 @@
  * @Author: xiongzhiqing@everjiankang.com
  * @Date: 2022-03-04 14:14:51
  * @Last Modified by: xiongzhiqing@everjiankang.com
- * @Last Modified time: 2022-03-07 09:02:12
+ * @Last Modified time: 2022-03-07 10:02:30
  * 所有公共类型定义文件
  */
 
@@ -15,6 +15,7 @@ export interface AxiosRequestConfig {
   params?: any
   headers?: any
   responseType?: XMLHttpRequestResponseType
+  timeout?: number
 }
 
 export interface AxiosResponse {
@@ -28,4 +29,12 @@ export interface AxiosResponse {
 
 export  interface AxiosPromise extends Promise<AxiosResponse>{
 
+}
+
+export interface AxiosError extends Error {
+  isAxiosError: boolean
+  config: AxiosRequestConfig
+  code?: string | null
+  request?: any
+  response?: AxiosResponse
 }
