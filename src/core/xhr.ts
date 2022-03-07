@@ -1,6 +1,6 @@
-import { createError } from "./helpers/error";
-import { parseHeaders } from "./helpers/headers";
-import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from "./types";
+import { createError } from "../helpers/error";
+import { parseHeaders } from "../helpers/headers";
+import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from "../types";
 
 export default function xhr (config: AxiosRequestConfig): AxiosPromise {
 
@@ -16,7 +16,8 @@ export default function xhr (config: AxiosRequestConfig): AxiosPromise {
     if (timeout) {
       request.timeout = timeout
     }
-    request.open(method.toUpperCase(), url, true)
+    // "!", 类型断言 url 不是空
+    request.open(method.toUpperCase(), url!, true)
 
     request.onreadystatechange = function handleLoad () {
       if (request.readyState !== 4) {
