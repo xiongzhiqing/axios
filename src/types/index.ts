@@ -2,7 +2,7 @@
  * @Author: xiongzhiqing@everjiankang.com
  * @Date: 2022-03-04 14:14:51
  * @Last Modified by: xiongzhiqing@everjiankang.com
- * @Last Modified time: 2022-03-07 12:18:26
+ * @Last Modified time: 2022-03-07 18:52:16
  * 所有公共类型定义文件
  */
 
@@ -40,6 +40,10 @@ export interface AxiosError extends Error {
 }
 
 export interface Axios {
+  interceptors: {
+    request: AxiosInterceptorManager<AxiosRequestConfig>
+    response: AxiosInterceptorManager<AxiosResponse>
+  }
   request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
   get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
@@ -56,4 +60,18 @@ export interface AxiosInstance extends Axios {
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+}
+
+export interface AxiosInterceptorManager<T> {
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number
+
+  eject(id: number): void
+}
+
+export interface ResolvedFn<T> {
+  (val: T) : T | Promise<T>
+}
+
+export interface RejectedFn {
+  (error: any): any
 }

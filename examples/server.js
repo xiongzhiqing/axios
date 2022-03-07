@@ -44,7 +44,7 @@ registerSimpleRouter()
 registerBaseRouter()
 registerErrorRouter()
 registerExtendRouter()
-
+registerInterceptorRouter()
 
 
 
@@ -149,5 +149,11 @@ function registerExtendRouter () {
         age: 288
       }
     })
+  })
+}
+
+function registerInterceptorRouter () {
+  router.get('/interceptor/get', function(req, res) {
+    res.json('hello world')
   })
 }
