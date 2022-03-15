@@ -46,12 +46,12 @@ export function buildURL(url: string, params?: any, paramsSerializer?: (params: 
 
       values.forEach(value => {
         if (isDate(value)) {
-          val = val.toISOString()
+          value = value.toISOString()
         } else if (isPlainObject(value)) {
-          val = JSON.stringify(val)
+          value = JSON.stringify(value)
         }
 
-        parts.push(`${encode(key)}=${encode(val)}`)
+        parts.push(`${encode(key)}=${encode(value)}`)
       })
     })
 
@@ -71,7 +71,7 @@ export function buildURL(url: string, params?: any, paramsSerializer?: (params: 
 
 export function isAbsoluteURL(url: string): boolean {
   // 绝对地址
-  return /(^[a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
 }
 
 export function combineURL(baseUrl: string, relativeUrl?: string): string {
