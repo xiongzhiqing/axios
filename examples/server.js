@@ -8,6 +8,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const webpackConfig = require('./webpack.config')
 const path = require('path')
+require('./server2')
 
 const app = express()
 const compiler = webpack(webpackConfig)
@@ -24,7 +25,7 @@ app.use(webpackHotMiddleware(compiler))
 
 app.use(express.static(__dirname, {
   setHeaders(res) {
-    res.cookie('XSRF_TOKEN_D', '1234abc')
+    res.cookie('XSRF-TOKEN-D1', '1234abc1')
   }
 }))
 
@@ -47,6 +48,7 @@ registerExtendRouter()
 registerInterceptorRouter()
 registerConfigRouter()
 registerCancelRouter()
+registerMoreRouter()
 
 app.use(router)
 
@@ -174,5 +176,42 @@ function registerCancelRouter () {
     setTimeout(() => {
       res.json(req.body)
     }, 1000)
+  })
+}
+
+function registerMoreRouter () {
+  router.get('/more/304', function (req, res) {
+    res.status(304)
+    res.end()
+  })
+  router.get('/more/get', function (req, res) {
+    setTimeout(() => {
+      res.json(req.cookies)
+    }, 1000)
+  })
+  router.post('/more/upload', function(req, res) {
+    console.log(req.body, req.files);
+    res.end('upload success!')
+  })
+
+  router.post('/more/post', function(req, res) {
+    const auth = req.headers.authorization
+    const [type, credentials] = auth.split(' ')
+    console.log(atob(credentials));
+    // atob 解密base64
+    const [username, password] = atob(credentials).split(':')
+    if (type === 'Basic' && username === 'Yee' && password === '123456') {
+      res.json(req.body)
+    } else {
+      res.status(401)
+      res.end('UnAuthorization')
+    }
+  })
+
+  router.get('/more/A', function(req, res) {
+    res.end('A')
+  })
+  router.get('/more/B', function (req, res) {
+    res.end('B')
   })
 }

@@ -41,7 +41,7 @@ strateKeysFromVal2.forEach(key => {
 })
 
 // 定义需要使用 deepMergeStrate 的属性名
-const strateKeysDeepMerge = ['headers']
+const strateKeysDeepMerge = ['headers', 'auth']
 
 strateKeysDeepMerge.forEach((key) => {
   strats[key] = deepMergeStrate
